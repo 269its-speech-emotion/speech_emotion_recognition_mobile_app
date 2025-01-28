@@ -4,14 +4,14 @@ import { useFonts,
     Poppins_300Light,
     Poppins_500Medium,
     Poppins_600SemiBold
-} from '@expo-google-fonts/poppins';
+} from "@expo-google-fonts/poppins";
 
 export const Fonts = {
-    Regular: 'Poppins_400Regular',
-    Bold: 'Poppins_700Bold',
-    Light: 'Poppins_300Light',
-    Medium: 'Poppins_500Medium',
-    SemiBold: 'Poppins_600SemiBold',
+    Regular: "Poppins_400Regular",
+    Bold: "Poppins_700Bold",
+    Light: "Poppins_300Light",
+    Medium: "Poppins_500Medium",
+    SemiBold: "Poppins_600SemiBold",
 };
 
 export const loadFonts = () => {
