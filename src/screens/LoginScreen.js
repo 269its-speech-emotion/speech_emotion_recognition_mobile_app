@@ -31,7 +31,7 @@ export default function LoginScreen() {
     }
 
     const onSignUpPressed = () => {
-        navigation.navigate('SignUpScreen');
+        navigation.navigate('SignupScreen');
     }
 
     const onForgetPasswordPressed = data => {
@@ -77,7 +77,7 @@ export default function LoginScreen() {
 
             <Text style={styles.continueText}>or continue with</Text>
 
-            <SocialCustomButton text={"Google"} iconURL={Images.googleLogo} />
+            <SocialCustomButton iconURL={Images.googleLogo} />
 
             <Text style={styles.dontHaveAccountText}>Don't have an account? {' '}
                 <Text style={styles.linkText} onPress={onSignUpPressed}>Create one</Text>
