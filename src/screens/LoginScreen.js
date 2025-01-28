@@ -1,0 +1,121 @@
+import React, { useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { useForm } from "react-hook-form";
+import CustomTextInput from "../components/CustomTextInput";
+import CustomButton from "../components/CustomButton";
+import CustomTextButton from "../components/CustomTextButton";
+import SocialCustomButton from "../components/SocialCustomButton";
+import WelcomeTitle from "../components/WelcomeTitle";
+import { Colors } from "../constants/Colors";
+import { Fonts } from "../constants/Fonts";
+import { Images } from "../constants/Images";
+// import ApiService from "../service/ApiService";
+// import StorageHelper from "../utils/StorageHelper";
+
+
+
+export default function LoginScreen() {
+    const {control, handleSubmit} = useForm();
+    const navigation = useNavigation();
+    const [secureEntry, setSecureEntry] = useState(true);
+
+    const onLogInPressed = async (data) => {
+        //const response = await ApiService.login(data);
+        //if (response && response.statusCode === 200) {
+        //    await StorageHelper.setToken(response.token);
+        //    navigation.navigate("BottomTabNavigation");
+        //}else{
+        //    console.log("Error log in", response.statusCode);
+        //}
+    }
+
+    const onSignUpPressed = () => {
+        navigation.navigate('SignUpScreen');
+    }
+
+    const onForgetPasswordPressed = data => {
+            navigation.navigate('ForgotPasswordScreen');
+    }
+
+    const togglePasswordVisibility = () => {
+        setSecureEntry((prev) => !prev);
+    };
+
+    return (
+        <View style={styles.container}>
+            <WelcomeTitle textLine1={"Hey,"} textLine2={"Welcome"} textLine3={"Back"}/>
+            <CustomTextInput
+                name="email"
+                placeholder="Enter your email"
+                iconName={"mail-outline"}
+                isIonIcon={true}
+                control={control}
+                rules={{required: "Email is required"}}
+                keyboardType={"email-address"}
+            />
+
+            <CustomTextInput
+                name="password"
+                placeholder="Enter your password"
+                iconName={"lock"}
+                isSimpleLineIcons={true}
+                onPress={togglePasswordVisibility}
+                control={control}
+                rules={
+                {
+                    required: "Password is required",
+                    minLength: {value: 4, message: 'Password should be minimum 5 characters long'}
+                }}
+                secureTextEntry={secureEntry}
+                showEyeTogglePart={true}
+            />
+
+            <CustomTextButton text={"Forgot password?"} onPress={onForgetPasswordPressed}/>
+
+            <CustomButton text="Login" onPress={handleSubmit(onLogInPressed)}/>
+
+            <Text style={styles.continueText}>or continue with</Text>
+
+            <SocialCustomButton text={"Google"} iconURL={Images.googleLogo} />
+
+            <Text style={styles.dontHaveAccountText}>Don't have an account? {' '}
+                <Text style={styles.linkText} onPress={onSignUpPressed}>Create one</Text>
+            </Text>
+        </View>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        backgroundColor: Colors.white,
+        padding: 20,
+    },
+    headingText: {
+        fontSize: 32,
+        color: Colors.primaryColor_EA458E,
+        fontFamily: Fonts.SemiBold,
+        textAlign: 'left',
+        marginVertical: 20,
+    },
+    continueText: {
+        textAlign: "center",
+        marginVertical: 20,
+        fontSize: 12,
+        fontFamily: Fonts.Regular,
+        color: Colors.secondaryColor_45484A,
+    },
+    dontHaveAccountText: {
+        textAlign: "center",
+        marginVertical: 20,
+        fontFamily: Fonts.Regular,
+        color: Colors.secondaryColor_45484A,
+        gap: 5,
+    },
+    linkText: {
+        fontFamily: Fonts.Bold,
+        color: Colors.secondaryColor_45484A,
+    }
+})

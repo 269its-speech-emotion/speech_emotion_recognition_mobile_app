@@ -39,7 +39,7 @@ export default function OnBoardingScreen ({ navigation }) {
 
   // Complete onboarding and navigate to home
     const onComplete = () => {
-        navigation.replace("LogInScreen");
+        navigation.replace("LoginScreen");
     };
 
     return (
