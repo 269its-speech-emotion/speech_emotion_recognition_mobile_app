@@ -3,15 +3,12 @@ import { View, Text, StyleSheet } from "react-native";
 import { useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 
-// Components
 import CustomTextInput from "../components/CustomTextInput";
 import CustomButton from "../components/CustomButton";
 import WelcomeTitle from "../components/WelcomeTitle";
 
-// Constants
 import { Colors } from "../constants/Colors";
 import { Fonts } from "../constants/Fonts";
-
 
 export default function ReNewPasswordScreen(){
     const navigation = useNavigation();
