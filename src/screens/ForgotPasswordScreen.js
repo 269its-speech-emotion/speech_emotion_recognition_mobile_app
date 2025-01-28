@@ -11,7 +11,6 @@ import { Colors } from "../constants/Colors";
 import { Fonts } from "../constants/Fonts";
 
 
-
 export default function ForgotPasswordScreen(){
     const navigation = useNavigation();
     const EMAIL_REGEX = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
