@@ -12,8 +12,8 @@ import { Colors } from "../constants/Colors";
 import { Fonts } from "../constants/Fonts";
 import { Images } from "../constants/Images";
 
-//import ApiService from "../service/ApiService";
-//import StorageHelper from "../utils/StorageHelper";
+import ApiService from "../service/ApiService";
+import StorageHelper from "../utils/StorageHelper";
 
 
 export default function SignupScreen() {
@@ -27,27 +27,25 @@ export default function SignupScreen() {
     }
 
     const onRegisterPressed = async (data) => {
-        {/*
-            try {
-                const {username, email, password} = data;
-                const registrationData = {username, email, password};
+        try {
+            const {username, email, password} = data;
+            const registrationData = {username, email, password};
 
-                const response = await ApiService.signUp(registrationData);
+            const response = await ApiService.signUp(registrationData);
 
-                if (response) {
-                    await StorageHelper.setUserDTO(registrationData);
-                    console.log("Registration successful!");
-                    if (response.statusCode === 200) {
-                        navigation.navigate("ConfirmEmailScreen");
-                    }
-                } else {
-                    console.error("Unexpected response:", response);
+            if (response) {
+                await StorageHelper.setUserDTO(registrationData);
+                console.log("Registration successful!");
+                if (response.statusCode === 200) {
+                    navigation.navigate("ConfirmEmailScreen");
                 }
-            } catch (error) {
-                console.error("Error during registration:", response.message);
-                Alert.alert("Registration Failed", "Something went wrong. Please try again.");
+            } else {
+                console.error("Unexpected response:", response);
             }
-        */}
+        } catch (error) {
+            console.error("Error during registration:", response.message);
+            Alert.alert("Registration Failed", "Something went wrong. Please try again.");
+        }
     };
 
     const onForgetPasswordPressed = data => {

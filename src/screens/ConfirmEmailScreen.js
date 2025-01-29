@@ -7,47 +7,44 @@ import CustomTextInput from "../components/CustomTextInput";
 import CustomButton from "../components/CustomButton";
 import WelcomeTitle from "../components/WelcomeTitle";
 
+import ApiService from "../service/ApiService";
+import StorageHelper from "../utils/StorageHelper";
+
 import { Fonts } from "../constants/Fonts";
 import { Colors } from "../constants/Colors";
-
-//import ApiService from "../service/ApiService";
-//import StorageHelper from "../utils/StorageHelper";
 
 export default function ConfirmEmailScreen() {
     const {control, handleSubmit} = useForm();
     const navigation = useNavigation();
 
     const onConfirmPressed = async (verificationCode) => {
-        {/*
-            try {
-                const userDTO = await StorageHelper.getUserDTO();
-                console.log("await StorageHelper.getUserDTO", userDTO);
+        try {
+            const userDTO = await StorageHelper.getUserDTO();
+            console.log("await StorageHelper.getUserDTO", userDTO);
 
-                if (userDTO) {
-                    console.log("Retrieved userdto:", userDTO);
-                    const verificationRequest = {
-                        'verificationCode': verificationCode['confirmation-code'],
-                        'email': userDTO['email'],
-                    };
+            if (userDTO) {
+                console.log("Retrieved userdto:", userDTO);
+                const verificationRequest = {
+                    "verificationCode": verificationCode["confirmation-code"],
+                    "email": userDTO["email"],
+                };
 
-                    console.log("verificationRequest:", verificationRequest);
+                console.log("verificationRequest:", verificationRequest);
 
-                    const response = await ApiService.verifyUser(verificationRequest);
-                    if (response && response.statusCode === 200) {
-                        console.log("Email verification successful !");
-                        navigation.navigate("HomeWelcomeScreen");
-                    } else {
-                        console.log("Email verification failed  !", response.statusCode);
-                        console.log("Email verification failed  !", response.message);
-                    }
+                const response = await ApiService.verifyUser(verificationRequest);
+                if (response && response.statusCode === 200) {
+                    console.log("Email verification successful !");
+                    navigation.navigate("HomeWelcomeScreen");
                 } else {
-                    console.log("No userDTO found");
+                    console.log("Email verification failed  !", response.statusCode);
+                    console.log("Email verification failed  !", response.message);
                 }
-            } catch (error) {
-                console.error(error.message);
+            } else {
+                console.log("No userDTO found");
             }
-        */}
-
+        } catch (error) {
+            console.error(error.message);
+        }
     }
 
     const onResendPress = () => {

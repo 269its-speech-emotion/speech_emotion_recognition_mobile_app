@@ -2,16 +2,19 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useForm } from "react-hook-form";
+
 import CustomTextInput from "../components/CustomTextInput";
 import CustomButton from "../components/CustomButton";
 import CustomTextButton from "../components/CustomTextButton";
 import SocialCustomButton from "../components/SocialCustomButton";
 import WelcomeTitle from "../components/WelcomeTitle";
+
 import { Colors } from "../constants/Colors";
 import { Fonts } from "../constants/Fonts";
 import { Images } from "../constants/Images";
-// import ApiService from "../service/ApiService";
-// import StorageHelper from "../utils/StorageHelper";
+
+import ApiService from "../service/ApiService";
+import StorageHelper from "../utils/StorageHelper";
 
 
 
@@ -21,13 +24,13 @@ export default function LoginScreen() {
     const [secureEntry, setSecureEntry] = useState(true);
 
     const onLogInPressed = async (data) => {
-        //const response = await ApiService.login(data);
-        //if (response && response.statusCode === 200) {
-        //    await StorageHelper.setToken(response.token);
-        //    navigation.navigate("BottomTabNavigation");
-        //}else{
-        //    console.log("Error log in", response.statusCode);
-        //}
+        const response = await ApiService.login(data);
+        if (response && response.statusCode === 200) {
+            await StorageHelper.setToken(response.token);
+            navigation.navigate("BottomTabNavigation");
+        }else{
+            console.log("Error log in", response.statusCode);
+        }
     }
 
     const onSignUpPressed = () => {

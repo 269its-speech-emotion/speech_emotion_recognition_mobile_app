@@ -1,13 +1,15 @@
 import React, { useState, useRef } from "react";
 import {SafeAreaView, StyleSheet, FlatList, StatusBar,
     Dimensions,} from "react-native";
-import {SlidesData} from "../constants/SlidesData";
+
 import OnBoardingSlide from "../components/OnBoardingSlide";
 import OnBoardingFooter from "../components/OnBoardingFooter";
+
 import {Colors} from "../constants/Colors";
+import {SlidesData} from "../constants/SlidesData";
+
 
 const {width, height} = Dimensions.get("window");
-
 
 export default function OnBoardingScreen ({ navigation }) {
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
