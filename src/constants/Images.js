@@ -5,4 +5,6 @@ export const Images = {
     onboarding3:require("../../assets/images/onboarding-3.png"),
 
     googleLogo: require("../../assets/images/google-logo.png"),
+
+    home: require("../../assets/images/home.png"),
 };
