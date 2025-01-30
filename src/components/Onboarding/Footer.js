@@ -1,17 +1,11 @@
-import {
-    StyleSheet,
-    TouchableOpacity,
-    View,
-    Text,
-    Dimensions
-} from "react-native";
-import {Colors} from "../constants/Colors";
-import {SlidesData} from "../constants/SlidesData";
-import {Fonts} from "../constants/Fonts";
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Colors } from "../../constants/Colors";
+import { SlidesData } from "../../constants/SlidesData";
+import { Fonts } from "../../constants/Fonts";
 
-const {height} = Dimensions.get("window");
+const { height } = Dimensions.get("window");
 
-export default function OnBoardingFooter ({currentSlideIndex,goToNextSlide, skip, onComplete }) {
+export default function Footer({ currentSlideIndex, goToNextSlide, skip, onComplete }) {
     return (
         <View style={styles.footer}>
             {/* Indicator container */}
@@ -43,7 +37,7 @@ export default function OnBoardingFooter ({currentSlideIndex,goToNextSlide, skip
             </View>
         </View>
     );
-};
+}
 
 const styles = StyleSheet.create({
     footer: {
@@ -66,12 +60,6 @@ const styles = StyleSheet.create({
     activeIndicator: {
         backgroundColor: Colors.primaryColor_EA458E,
         width: 25,
-    },
-    buttonContainer: {
-        marginBottom: 20,
-    },
-    actionButtons: {
-        flexDirection: 'row',
     },
     button: {
         flex: 1,

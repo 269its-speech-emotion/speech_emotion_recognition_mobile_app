@@ -1,5 +1,5 @@
 import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 
 import HomeScreen from "../src/screens/bottom_tab_screens/HomeScreen";
 import HistoricScreen from "../src/screens/bottom_tab_screens/HistoricScreen";
@@ -20,5 +20,6 @@ export default function BottomTabs() {
                 <BottomTab.Screen name="Profile" component={ProfileScreen} options={{tabBarLabel: "Profile"}}/>
             </BottomTab.Group>
         </BottomTab.Navigator>
+
     );
 };

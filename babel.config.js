@@ -3,6 +3,6 @@ module.exports = {
     plugins: [
         "react-native-reanimated/plugin",
         ["@babel/plugin-transform-class-properties"],
-        ["@babel/plugin-transform-private-methods"] // ✅ Add this line
+        ["@babel/plugin-transform-private-methods"]
     ],
 };
