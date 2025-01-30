@@ -1,11 +1,11 @@
 import React from "react";
-import {Dimensions, Image, StyleSheet, Text, View} from "react-native";
-import {Colors} from "../constants/Colors";
-import {Fonts} from "../constants/Fonts";
+import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import { Colors } from "../../constants/Colors";
+import { Fonts } from "../../constants/Fonts";
 
 const { width } = Dimensions.get("window");
 
-export default function OnBoardingSlide ({ item }) {
+export default function Slide({ item }) {
     return (
         <View style={styles.slideContainer}>
             <Image source={item?.image} style={styles.slideImage} />
@@ -15,7 +15,7 @@ export default function OnBoardingSlide ({ item }) {
             </View>
         </View>
     );
-};
+}
 
 const styles = StyleSheet.create({
     slideContainer: {
