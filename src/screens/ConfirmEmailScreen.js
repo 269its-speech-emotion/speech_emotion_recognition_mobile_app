@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import {View, Text, StyleSheet, Platform, KeyboardAvoidingView, ScrollView} from "react-native";
 import { useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 
@@ -16,6 +16,7 @@ import { Colors } from "../constants/Colors";
 export default function ConfirmEmailScreen() {
     const {control, handleSubmit} = useForm();
     const navigation = useNavigation();
+    const text = "The account is pending activation. Please activate your account through the verification email in your inbox."
 
     const onConfirmPressed = async (verificationCode) => {
         try {
@@ -55,35 +56,39 @@ export default function ConfirmEmailScreen() {
         navigation.navigate("LogInScreen");
     }
     return (
-        <View style={styles.container}>
-            <WelcomeTitle textLine1={"Confirm"} textLine2={"Your"} textLine3={"Email"} />
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+                <WelcomeTitle textLine1={"Confirm"} textLine2={"Your"} textLine3={"Email"} />
 
-            <CustomTextInput
-                name="confirmation-code"
-                control={control}
-                iconName={"pin"}
-                isIonIcon={false}
-                isNumeric={true}
-                placeholder="Enter your confirmation code"
-                rules={{required: "Confirmation code is required"}}
-            />
+                <CustomTextInput
+                    name="confirmation-code"
+                    control={control}
+                    iconName={"pin"}
+                    isIonIcon={false}
+                    isNumeric={true}
+                    placeholder="Enter your confirmation code"
+                    rules={{required: "Confirmation code is required"}}
+                />
 
-            <CustomButton text="Confirm" onPress={handleSubmit(onConfirmPressed)}/>
+                <CustomButton text="Confirm" onPress={handleSubmit(onConfirmPressed)}/>
 
-            <CustomButton text="Resend code" onPress={onResendPress}/>
+                <CustomButton text="Resend code" onPress={onResendPress}/>
 
-            <Text style={styles.backToLoginText} onPress={onLogInPressed}>Back to Login</Text>
-
-        </View>
+                <Text style={styles.backToLoginText} onPress={onLogInPressed}>Back to Login</Text>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 };
 
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         flex: 1,
-        justifyContent: "center",
         backgroundColor: Colors.white,
+    },
+    scrollContainer: {
+        flexGrow: 1,
+        justifyContent: 'center',
         padding: 20,
     },
     backToLoginText: {

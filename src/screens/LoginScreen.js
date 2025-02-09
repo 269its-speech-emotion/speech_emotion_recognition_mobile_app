@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import {View, Text, StyleSheet, SafeAreaView, KeyboardAvoidingView, Platform, ScrollView, Alert} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useForm } from "react-hook-form";
 
@@ -17,19 +17,26 @@ import ApiService from "../service/ApiService";
 import StorageHelper from "../utils/StorageHelper";
 
 
-
 export default function LoginScreen() {
     const {control, handleSubmit} = useForm();
     const navigation = useNavigation();
     const [secureEntry, setSecureEntry] = useState(true);
 
     const onLogInPressed = async (data) => {
-        const response = await ApiService.login(data);
-        if (response && response.statusCode === 200) {
-            await StorageHelper.setToken(response.token);
-            navigation.navigate("BottomTabNavigation");
-        }else{
-            console.log("Error log in", response.statusCode);
+        try {
+            console.log("Login attempt with data: ", data)
+
+            const statusCode = await ApiService.login(data);
+            console.log("Login statusCode response:", statusCode);
+
+            if (statusCode && statusCode === 200) {
+                navigation.navigate("MainApp");
+            }else{
+                Alert.alert("Wrong password or email")
+                console.log("Login failed, invalid response:", statusCode);
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -46,54 +53,59 @@ export default function LoginScreen() {
     };
 
     return (
-        <View style={styles.container}>
-            <WelcomeTitle textLine1={"Hey,"} textLine2={"Welcome"} textLine3={"Back"}/>
-            <CustomTextInput
-                name="email"
-                placeholder="Enter your email"
-                iconName={"mail-outline"}
-                isIonIcon={true}
-                control={control}
-                rules={{required: "Email is required"}}
-                keyboardType={"email-address"}
-            />
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+                <WelcomeTitle textLine1={"Hey,"} textLine2={"Welcome"} textLine3={"Back"}/>
+                <CustomTextInput
+                    name="email"
+                    placeholder="Enter your email"
+                    iconName={"mail-outline"}
+                    isIonIcon={true}
+                    control={control}
+                    rules={{required: "Email is required"}}
+                    keyboardType={"email-address"}
+                />
 
-            <CustomTextInput
-                name="password"
-                placeholder="Enter your password"
-                iconName={"lock"}
-                isSimpleLineIcons={true}
-                onPress={togglePasswordVisibility}
-                control={control}
-                rules={
-                {
-                    required: "Password is required",
-                    minLength: {value: 4, message: 'Password should be minimum 5 characters long'}
-                }}
-                secureTextEntry={secureEntry}
-                showEyeTogglePart={true}
-            />
+                <CustomTextInput
+                    name="password"
+                    placeholder="Enter your password"
+                    iconName={"lock"}
+                    isSimpleLineIcons={true}
+                    onPress={togglePasswordVisibility}
+                    control={control}
+                    rules={
+                    {
+                        required: "Password is required",
+                        minLength: {value: 4, message: 'Password should be minimum 5 characters long'}
+                    }}
+                    secureTextEntry={secureEntry}
+                    showEyeTogglePart={true}
+                />
 
-            <CustomTextButton text={"Forgot password?"} onPress={onForgetPasswordPressed}/>
+                <CustomTextButton text={"Forgot password?"} onPress={onForgetPasswordPressed}/>
 
-            <CustomButton text="Login" onPress={handleSubmit(onLogInPressed)}/>
+                <CustomButton text="Login" onPress={handleSubmit(onLogInPressed)}/>
 
-            <Text style={styles.continueText}>or continue with</Text>
+                <Text style={styles.continueText}>or continue with</Text>
 
-            <SocialCustomButton iconURL={Images.googleLogo} />
+                <SocialCustomButton iconURL={Images.googleLogo} />
 
-            <Text style={styles.dontHaveAccountText}>Don't have an account? {' '}
-                <Text style={styles.linkText} onPress={onSignUpPressed}>Create one</Text>
-            </Text>
-        </View>
+                <Text style={styles.dontHaveAccountText}>Don't have an account? {' '}
+                    <Text style={styles.linkText} onPress={onSignUpPressed}>Create one</Text>
+                </Text>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "center",
         backgroundColor: Colors.white,
+    },
+    scrollContainer: {
+        flexGrow: 1,
+        justifyContent: 'center',
         padding: 20,
     },
     headingText: {

@@ -20,6 +20,8 @@ export default function Slide({ item }) {
 const styles = StyleSheet.create({
     slideContainer: {
         alignItems: 'center',
+        marginTop: 20
+
     },
     slideImage: {
         height: '75%',

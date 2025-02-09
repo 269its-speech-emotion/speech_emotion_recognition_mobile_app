@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import {View, Text, StyleSheet, Platform, KeyboardAvoidingView, ScrollView} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useForm } from "react-hook-form";
 
@@ -69,82 +69,86 @@ export default function SignupScreen() {
     };
 
     return (
-        <View style={styles.container}>
-            <Welcome textLine1={"Let's get"} textLine2={"Started"}/>
-            <CustomTextInput
-                name="username"
-                placeholder="Enter your username"
-                iconName={"person-outline"}
-                isIonIcon={true}
-                control={control}
-                rules={{required: "Username is required"}}
-            />
-            <CustomTextInput
-                name="email"
-                placeholder="Enter your email"
-                iconName={"mail-outline"}
-                isIonIcon={true}
-                control={control}
-                rules={{required: "Email is required"}}
-            />
-            <CustomTextInput
-                name="password"
-                placeholder="Enter your password"
-                iconName={"lock"}
-                isSimpleLineIcons={true}
-                onPress={togglePasswordVisibility}
-                control={control}
-                rules={
-                {
-                    required: "Password is required",
-                    minLength: {value: 4, message: 'Password should be minimum 5 characters long'}
-                }}
-                secureTextEntry={secureEntry}
-                showEyeTogglePart={true}
-            />
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+                <Welcome textLine1={"Let's get"} textLine2={"Started"}/>
+                <CustomTextInput
+                    name="username"
+                    placeholder="Enter your username"
+                    iconName={"person-outline"}
+                    isIonIcon={true}
+                    control={control}
+                    rules={{required: "Username is required"}}
+                />
+                <CustomTextInput
+                    name="email"
+                    placeholder="Enter your email"
+                    iconName={"mail-outline"}
+                    isIonIcon={true}
+                    control={control}
+                    rules={{required: "Email is required"}}
+                />
+                <CustomTextInput
+                    name="password"
+                    placeholder="Enter your password"
+                    iconName={"lock"}
+                    isSimpleLineIcons={true}
+                    onPress={togglePasswordVisibility}
+                    control={control}
+                    rules={
+                    {
+                        required: "Password is required",
+                        minLength: {value: 4, message: 'Password should be minimum 5 characters long'}
+                    }}
+                    secureTextEntry={secureEntry}
+                    showEyeTogglePart={true}
+                />
 
-            <CustomTextInput
-                name="repeat-password"
-                placeholder="Repeat your password"
-                iconName={"lock"}
-                isSimpleLineIcons={true}
-                onPress={togglePasswordVisibility}
-                control={control}
-                rules={
-                {
-                    required: "Password is required",
-                    validate: value =>
-                        value === pwd || 'Passwords do not match',
-                }}
-                secureTextEntry={secureEntry}
-                showEyeTogglePart={true}
-            />
+                <CustomTextInput
+                    name="repeat-password"
+                    placeholder="Repeat your password"
+                    iconName={"lock"}
+                    isSimpleLineIcons={true}
+                    onPress={togglePasswordVisibility}
+                    control={control}
+                    rules={
+                    {
+                        required: "Password is required",
+                        validate: value =>
+                            value === pwd || 'Passwords do not match',
+                    }}
+                    secureTextEntry={secureEntry}
+                    showEyeTogglePart={true}
+                />
 
-            <Text style={styles.textTermsPrivacy}>
-                By registering, you confirm that you accept our {' '}
-                <Text style={styles.link} onPress={onTermsOfUsePressed}>Terms of Use</Text> and {' '}
-                <Text style={styles.link} onPress={onPrivacyPressed}>Privacy Policy</Text>.
-            </Text>
+                <Text style={styles.textTermsPrivacy}>
+                    By registering, you confirm that you accept our {' '}
+                    <Text style={styles.link} onPress={onTermsOfUsePressed}>Terms of Use</Text> and {' '}
+                    <Text style={styles.link} onPress={onPrivacyPressed}>Privacy Policy</Text>.
+                </Text>
 
-            <CustomButton text="Sign up" onPress={handleSubmit(onRegisterPressed)} />
+                <CustomButton text="Sign up" onPress={handleSubmit(onRegisterPressed)} />
 
-            <Text style={styles.continueText}>or continue with</Text>
+                <Text style={styles.continueText}>or continue with</Text>
 
-            <SocialCustomButton iconURL={Images.googleLogo} />
+                <SocialCustomButton iconURL={Images.googleLogo} />
 
-            <Text style={styles.alreadyHaveAccountText}>Already have an account! {' '}
-                <Text style={styles.linkText} onPress={onLogInPressed}>Login</Text>
-            </Text>
-
-        </View>
+                <Text style={styles.alreadyHaveAccountText}>Already have an account! {' '}
+                    <Text style={styles.linkText} onPress={onLogInPressed}>Login</Text>
+                </Text>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "center",
         backgroundColor: Colors.white,
+    },
+    scrollContainer: {
+        flexGrow: 1,
+        justifyContent: 'center',
         padding: 20,
     },
     textTermsPrivacy: {

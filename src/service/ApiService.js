@@ -1,9 +1,11 @@
 import axios from "axios";
 import StorageHelper from "../utils/StorageHelper";
 
+
+
 export default class ApiService {
 
-    static BASE_URL = "http://192.168.1.172:8080/api/v1";
+    static BASE_URL = "http://192.168.1.172:8888/api/v1";
 
     static async getHeaders() {
         const token = await StorageHelper.getToken("token");
@@ -15,6 +17,7 @@ export default class ApiService {
 
     static async signUp(registrationRequest){
         const response = await axios.post(`${this.BASE_URL}/auth/signup`, registrationRequest);
+        console.log(response);
         return response.data;
     }
 
@@ -23,10 +26,22 @@ export default class ApiService {
         return response.data;
     }
 
-    static async login(loginRequest){
+static async login(loginRequest) {
+    try {
         const response = await axios.post(`${this.BASE_URL}/auth/login`, loginRequest);
-        return response.data;
+        console.log(response);
+        if (response && response.data.statusCode === 200) {
+            await StorageHelper.setToken(response.data.token);
+            console.log(response.data);
+            return response.data.statusCode;
+        }else{
+            console.log("Login failed:", response.data.statusCode);
+            return response.data.statusCode;
+        }
+    }catch (error) {
+        console.error("Login error:", error);
     }
+}
 
     static async getUserProfile(){
         const headers = await this.getHeaders();
