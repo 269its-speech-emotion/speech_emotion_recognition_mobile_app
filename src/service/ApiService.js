@@ -1,8 +1,6 @@
 import axios from "axios";
 import StorageHelper from "../utils/StorageHelper";
 
-
-
 export default class ApiService {
 
     static BASE_URL = "http://192.168.1.172:8888/api/v1";
@@ -43,7 +41,7 @@ static async login(loginRequest) {
     }
 }
 
-    static async getUserProfile(){
+    static async getUserInfo(){
         const headers = await this.getHeaders();
         const response = await axios.get(`${this.BASE_URL}/users/get-self`, {
             headers: headers
