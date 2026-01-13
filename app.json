@@ -18,13 +18,15 @@
       "backgroundColor": "#EA458E"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.serma"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#EA458E"
-      }
+      },
+      "package": "com.anonymous.serma"
     },
     "web": {
       "favicon": "./assets/icon.png"
