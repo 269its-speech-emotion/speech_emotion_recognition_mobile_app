@@ -20,28 +20,29 @@ export default function Slide({ item }) {
 const styles = StyleSheet.create({
     slideContainer: {
         alignItems: 'center',
-        marginTop: 20
-
+        justifyContent: 'center',
+        width: width,
+        paddingHorizontal: 20,
     },
     slideImage: {
-        height: '75%',
-        width: width,
+        height: 300,
+        width: width - 80,
         resizeMode: 'contain',
+        marginBottom: 40,
     },
     title: {
         color: Colors.primaryColor_EA458E,
         fontFamily: Fonts.SemiBold,
-        fontSize: 22,
-        marginTop: 20,
+        fontSize: 24,
+        marginBottom: 15,
         textAlign: 'center',
     },
     description: {
         color: Colors.primaryColor_EA458E,
         fontFamily: Fonts.Regular,
-        fontSize: 14,
-        marginTop: 10,
-        maxWidth: '70%',
+        fontSize: 16,
         textAlign: 'center',
-        lineHeight: 23,
+        lineHeight: 24,
+        paddingHorizontal: 30,
     },
 });
