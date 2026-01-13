@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
-import { SafeAreaView, StyleSheet, StatusBar, View } from "react-native";
+import { StyleSheet, StatusBar, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { FlashList } from "@shopify/flash-list";
 import { SlidesData } from "../constants/SlidesData";
 import Slide from "../components/Onboarding/Slide";
@@ -40,8 +41,12 @@ export default function OnBoardingScreen({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar backgroundColor={Colors.white} />
-            <View style={{flex: 1}}>
+            <StatusBar 
+                backgroundColor={Colors.white} 
+                barStyle="dark-content"
+                translucent={false}
+            />
+            <View style={styles.flashListContainer}>
                 <FlashList
                     ref={ref}
                     horizontal
@@ -49,7 +54,14 @@ export default function OnBoardingScreen({ navigation }) {
                     showsHorizontalScrollIndicator={false}
                     data={SlidesData}
                     estimatedItemSize={SCREEN_WIDTH}
-                    renderItem={({ item }) => <Slide item={item} />}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item, index }) => (
+                        <Slide 
+                            item={item} 
+                            index={index} 
+                            currentIndex={currentSlideIndex}
+                        />
+                    )}
                     onViewableItemsChanged={onViewableItemsChanged}
                     viewabilityConfig={viewabilityConfig}
                 />
@@ -71,9 +83,5 @@ const styles = StyleSheet.create({
     },
     flashListContainer: {
         flex: 1,
-    },
-    footerContainer: {
-        height: SCREEN_HEIGHT * 0.25,
-        backgroundColor: Colors.white,
     },
 });
