@@ -28,6 +28,9 @@ export default function CustomInput({
   isIonIcon = false,
   isSimpleLineIcons = false,
   isMaterialIcons = false,
+  autoCapitalize = "sentences",
+  autoCorrect = true,
+  textContentType = "none",
 }) {
 
     return (
@@ -50,6 +53,9 @@ export default function CustomInput({
                             style={styles.textInput}
                             secureTextEntry={secureTextEntry}
                             keyboardType={isNumeric ? "numeric" : keyboardType}
+                            autoCapitalize={autoCapitalize}
+                            autoCorrect={autoCorrect}
+                            textContentType={textContentType}
 
                         />
                         {showEyeTogglePart && ( // Show the eye icon only if secureTextEntry is true
