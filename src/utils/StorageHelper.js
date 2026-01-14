@@ -43,5 +43,31 @@ export default class StorageHelper {
         }
     }
 
+    static async setGuestMode(isGuest) {
+        try {
+            await AsyncStorage.setItem('isGuest', JSON.stringify(isGuest));
+        } catch (e) {
+            console.error("Error when storing guest mode", e);
+        }
+    }
+
+    static async isGuestMode() {
+        try {
+            const isGuest = await AsyncStorage.getItem('isGuest');
+            return isGuest ? JSON.parse(isGuest) : false;
+        } catch (e) {
+            console.error("Error when retrieving guest mode", e);
+            return false;
+        }
+    }
+
+    static async clearGuestMode() {
+        try {
+            await AsyncStorage.removeItem('isGuest');
+        } catch (e) {
+            console.error("Error when clearing guest mode", e);
+        }
+    }
+
 
 }

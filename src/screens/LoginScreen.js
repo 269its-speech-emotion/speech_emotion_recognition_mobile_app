@@ -1,17 +1,15 @@
 import React, { useState, useCallback } from "react";
-import {View, Text, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Alert, Keyboard} from "react-native";
+import {View, Text, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Alert, Keyboard, TouchableOpacity} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useForm } from "react-hook-form";
 
 import CustomTextInput from "../components/CustomTextInput";
 import CustomButton from "../components/CustomButton";
 import CustomTextButton from "../components/CustomTextButton";
-import SocialCustomButton from "../components/SocialCustomButton";
 import WelcomeTitle from "../components/WelcomeTitle";
 
 import { Colors } from "../constants/Colors";
 import { Fonts } from "../constants/Fonts";
-import { Images } from "../constants/Images";
 
 import ApiService from "../service/ApiService";
 import StorageHelper from "../utils/StorageHelper";
@@ -32,7 +30,8 @@ export default function LoginScreen() {
 
             // Handle different response status codes
             if (statusCode === 200) {
-                // Success - navigate to main app
+                // Success - clear guest mode and navigate to main app
+                await StorageHelper.clearGuestMode();
                 navigation.navigate("MainApp");
             } else if (statusCode === 401) {
                 // Invalid credentials
@@ -102,6 +101,25 @@ export default function LoginScreen() {
         setSecureEntry((prev) => !prev);
     }, []);
 
+    const onGuestLoginPressed = useCallback(async () => {
+        try {
+            // Dismiss keyboard
+            Keyboard.dismiss();
+            // Set guest mode flag in storage
+            await StorageHelper.setGuestMode(true);
+            // Navigate to MainApp as guest (no authentication)
+            navigation.navigate('MainApp');
+        } catch (error) {
+            if (__DEV__) {
+                console.error("Guest login error:", error);
+            }
+            Alert.alert(
+                "Error",
+                "Unable to continue as guest. Please try again."
+            );
+        }
+    }, [navigation]);
+
     return (
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -147,9 +165,13 @@ export default function LoginScreen() {
 
                 <CustomButton text="Login" onPress={handleSubmit(onLogInPressed)}/>
 
-                <Text style={styles.continueText}>or continue with</Text>
-
-                <SocialCustomButton iconURL={Images.googleLogo} />
+                <TouchableOpacity 
+                    style={styles.guestButton}
+                    onPress={onGuestLoginPressed}
+                    activeOpacity={0.7}
+                >
+                    <Text style={styles.guestButtonText}>Continue as Guest</Text>
+                </TouchableOpacity>
 
                 <Text style={styles.dontHaveAccountText}>Don't have an account? {' '}
                     <Text style={styles.linkText} onPress={onSignUpPressed}>Create one</Text>
@@ -175,6 +197,20 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontFamily: Fonts.Regular,
         color: Colors.secondaryColor_45484A,
+    },
+    guestButton: {
+        borderWidth: 1,
+        borderColor: Colors.primaryColor_EA458E,
+        borderRadius: 100,
+        backgroundColor: 'transparent',
+        marginTop: 10,
+    },
+    guestButtonText: {
+        color: Colors.primaryColor_EA458E,
+        fontSize: 18,
+        fontFamily: Fonts.Light,
+        textAlign: 'center',
+        padding: 10,
     },
     dontHaveAccountText: {
         textAlign: "center",

@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import {View, Text, StyleSheet, Platform, KeyboardAvoidingView, ScrollView} from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import {View, Text, StyleSheet, Platform, KeyboardAvoidingView, ScrollView, Alert} from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useForm } from "react-hook-form";
 
 import Welcome from "../components/WelcomeTitle";
 import CustomTextInput from "../components/CustomTextInput";
 import CustomButton from "../components/CustomButton";
-import SocialCustomButton from "../components/SocialCustomButton";
 
 import { Colors } from "../constants/Colors";
 import { Fonts } from "../constants/Fonts";
-import { Images } from "../constants/Images";
 
 import ApiService from "../service/ApiService";
 import StorageHelper from "../utils/StorageHelper";
@@ -20,7 +18,11 @@ export default function SignupScreen() {
     const {control, handleSubmit, watch} = useForm();
     const pwd = watch("password");
     const navigation = useNavigation();
+    const route = useRoute();
     const [secureEntry, setSecureEntry] = useState(true);
+    
+    // Check if user is converting from guest mode
+    const fromGuestMode = route.params?.fromGuestMode || false;
 
     const onLogInPressed = data => {
         navigation.navigate("LoginScreen");
@@ -35,15 +37,38 @@ export default function SignupScreen() {
 
             if (response) {
                 await StorageHelper.setUserDTO(registrationData);
-                console.log("Registration successful!");
-                if (response.statusCode === 200) {
-                    navigation.navigate("ConfirmEmailScreen");
+                
+                // If converting from guest mode, clear guest flag
+                if (fromGuestMode) {
+                    await StorageHelper.clearGuestMode();
+                    
+                    if (__DEV__) {
+                        console.log("Guest converted to user successfully!");
+                    }
+                    
+                    // Show success message for guest conversion
+                    Alert.alert(
+                        "Account Created!",
+                        "Your guest data has been saved. Welcome to SERMA!",
+                        [
+                            {
+                                text: "Get Started",
+                                onPress: () => navigation.navigate("MainApp")
+                            }
+                        ]
+                    );
+                } else {
+                    // Regular signup flow - navigate to email confirmation
+                    if (response.statusCode === 200) {
+                        navigation.navigate("ConfirmEmailScreen");
+                    }
                 }
             } else {
                 console.error("Unexpected response:", response);
+                Alert.alert("Registration Failed", "Something went wrong. Please try again.");
             }
         } catch (error) {
-            console.error("Error during registration:", response.message);
+            console.error("Error during registration:", error.message);
             Alert.alert("Registration Failed", "Something went wrong. Please try again.");
         }
     };
@@ -98,7 +123,7 @@ export default function SignupScreen() {
                     rules={
                     {
                         required: "Password is required",
-                        minLength: {value: 4, message: 'Password should be minimum 5 characters long'}
+                        minLength: {value: 5, message: 'Password should be minimum 5 characters long'}
                     }}
                     secureTextEntry={secureEntry}
                     showEyeTogglePart={true}
@@ -129,10 +154,6 @@ export default function SignupScreen() {
 
                 <CustomButton text="Sign up" onPress={handleSubmit(onRegisterPressed)} />
 
-                <Text style={styles.continueText}>or continue with</Text>
-
-                <SocialCustomButton iconURL={Images.googleLogo} />
-
                 <Text style={styles.alreadyHaveAccountText}>Already have an account! {' '}
                     <Text style={styles.linkText} onPress={onLogInPressed}>Login</Text>
                 </Text>
@@ -159,13 +180,6 @@ const styles = StyleSheet.create({
     },
     link: {
         color: Colors.primaryColor_EA458E
-    },
-    continueText: {
-        textAlign: "center",
-        marginVertical: 15,
-        fontSize: 12,
-        fontFamily: Fonts.Regular,
-        color: Colors.secondaryColor_45484A
     },
     alreadyHaveAccountText: {
         textAlign: "center",
