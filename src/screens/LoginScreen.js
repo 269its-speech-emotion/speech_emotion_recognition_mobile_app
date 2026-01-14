@@ -82,7 +82,7 @@ export default function LoginScreen() {
                     rules={
                     {
                         required: "Password is required",
-                        minLength: {value: 4, message: 'Password should be minimum 5 characters long'}
+                        minLength: {value: 5, message: 'Password should be minimum 5 characters long'}
                     }}
                     secureTextEntry={secureEntry}
                     showEyeTogglePart={true}
