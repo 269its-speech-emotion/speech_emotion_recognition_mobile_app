@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {View, Text, StyleSheet, SafeAreaView, KeyboardAvoidingView, Platform, ScrollView, Alert} from "react-native";
+import {View, Text, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Alert} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useForm } from "react-hook-form";
 
@@ -107,13 +107,6 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         justifyContent: 'center',
         padding: 20,
-    },
-    headingText: {
-        fontSize: 32,
-        color: Colors.primaryColor_EA458E,
-        fontFamily: Fonts.SemiBold,
-        textAlign: 'left',
-        marginVertical: 20,
     },
     continueText: {
         textAlign: "center",
