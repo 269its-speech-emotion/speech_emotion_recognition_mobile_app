@@ -62,7 +62,13 @@ export default function LoginScreen() {
                     iconName={"mail-outline"}
                     isIonIcon={true}
                     control={control}
-                    rules={{required: "Email is required"}}
+                    rules={{
+                        required: "Email is required",
+                        pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: "Please enter a valid email address"
+                        }
+                    }}
                     keyboardType={"email-address"}
                 />
 
